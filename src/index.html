@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="plugins/owlcarousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="plugins/owlcarousel/owl.theme.default.min.css">
+
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div class="back-to-top d-none">
+    <button class="back-to-top__btn">back to top</button>
+  </div>
+  <header class="header">
+    <div class="header__logo">
+      <img src="assets/cats2.png" alt="logo" height="80">
+    </div>
+    <div class="header__login">
+      <a href="#login">login</a>
+    </div>
+  </header>
+  <nav class="nav">
+    <input id="nav__checkbox" type="checkbox" class="checkbox">
+    <label for="nav__checkbox">
+      <i class="fas fa-bars"></i>
+      <i class="fas fa-times"></i>
+    </label>
+    <ul class="nav__toggle">
+      <li><a href="">Home</a></li>
+      <li><a href="">About</a></li>
+      <li><a href="">Services</a></li>
+      <li><a href="">Contact</a></li>
+    </ul>
+  </nav>
+  <main class="main">
+    <section>
+      <div class="carousel owl-carousel owl-theme">
+      </div>
+      <div class="carousel__add">
+        <button id="add-carousel-item">Load more</button>
+      </div>
+    </section>
+    <section class="top-cats">
+      <div class="top-cats-container">
+        <h2>Daily Top Cats</h2>
+        <div class="top-cats-wrapper">
+          <div class="top-cats-box">
+            <img src="assets/cat-small.png" alt="top-cat-1">
+          </div>
+          <div class="top-cats-box">
+            <img src="assets/cat-small.png" alt="top-cat-2">
+          </div>
+          <div class="top-cats-box">
+            <img src="assets/cat-small.png" alt="top-cat-3">
+          </div>
+          <div class="top-cats-box">
+            <img src="assets/cat-small.png" alt="top-cat-4">
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="facts">
+      <div class="facts__wrapper">
+        <img src="assets/random-facts.png" alt="random-fact-cat">
+        <h2>Random Facts</h2>
+        <p>Did you know?</p>
+        <span class="facts-text"></span>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <small>© 2022 CATS101 INC.</small>
+  </footer>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="plugins/owlcarousel/owl.carousel.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    let XAPIKEY = "44b79d47-5366-47ef-a648-ac58de08a669"
+    let catsapiconfig = {headers: {
+      'x-api-key': XAPIKEY
+    }}
+    
+    $(document).ready(function(){
+      loadCarousel()
+      loadCarouselInitialCats()
+      getDailyTopCats()
+      getRandomFact()
+
+      $('.carousel .owl-dots').removeClass('disabled')
+      $('.owl-carousel').on('changed.owl.carousel', function(event) {
+        $(this).find('.owl-dots').removeClass('disabled');
+      });
+
+      $(window).scroll(function() {
+          let windowHeight = $(document).height();
+          let bottomScrollPosition = $(document).scrollTop() + $(window).height();
+          let percentScrolled = parseInt((bottomScrollPosition / windowHeight * 100).toFixed(0));
+
+          if(percentScrolled >= 50) {
+            $(".back-to-top").removeClass('d-none')
+          } else {
+            $(".back-to-top").addClass('d-none')
+          }
+      });
+
+      $("#add-carousel-item").on('click', function() {
+        addCarouselItem()
+      })
+
+      $(".facts-text").on('click', function() {
+        getRandomFact()
+      })
+
+      $(".back-to-top__btn").on('click', function() {
+        window.scrollTo(0,0);
+      })
+    });
+  </script>
+</body>
+</html>
